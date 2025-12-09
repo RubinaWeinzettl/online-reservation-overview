@@ -92,4 +92,118 @@ Terminbuchung
 Stornierung / Übersicht
 
 🔗 Repository:
-<Link zu Customer-App Repo - TBA >
+<Link zu Customer-App - TBA>
+
+🗂 Architekturdiagramm
+graph LR
+  subgraph Clients
+    CBrowser[Customer Browser]
+    BBrowser[Business Browser]
+  end
+
+  subgraph Frontends
+    CFE[Customer Frontend (React)]
+    BFE[Business Frontend (React)]
+  end
+
+  subgraph BFF_Layer[Backend for Frontend]
+    CBFF[Customer BFF (FastAPI)]
+    BBFF[Business BFF (FastAPI)]
+  end
+
+  subgraph Services
+    AUTH[Auth Service]
+    BOOK[Booking Service<br/>(Basic Version)]
+    BUS[Business Service<br/>(Unternehmen + Staff)]
+  end
+
+  subgraph Databases
+    DBAUTH[(Auth DB)]
+    DBBOOK[(Booking DB)]
+    DBBUS[(Business DB)]
+  end
+
+  %% Connections
+  CBrowser --> CFE
+  BBrowser --> BFE
+
+  CFE --> CBFF
+  BFE --> BBFF
+
+  CBFF --> AUTH
+  BBFF --> AUTH
+
+  CBFF --> BOOK
+  BBFF --> BOOK
+
+  CBFF --> BUS
+  BBFF --> BUS
+
+  AUTH --> DBAUTH
+  BOOK --> DBBOOK
+  BUS --> DBBUS
+
+  AUTH -. JWT Tokens .-> CFE
+  AUTH -. JWT Tokens .-> BFE
+
+🛠 Technologien
+Backend
+
+Python
+
+FastAPI
+
+JWT Authentication
+
+PostgreSQL / SQLite
+
+Docker
+
+Frontend
+
+React
+
+TypeScript
+
+React Router
+
+Zustand oder Redux Toolkit
+
+TailwindCSS (optional)
+
+Tools / DevOps
+
+GitHub Projects (Organisation)
+
+GitHub Actions (optional CI/CD)
+
+Docker Compose
+
+📚 Was ich mit diesem Projekt lerne
+
+Aufbau und Strukturierung von Microservices
+
+Trennung von Verantwortlichkeiten
+
+API-Design für unterschiedliche Userrollen
+
+Umsetzung eines eigenen Auth-Services
+
+Arbeiten mit JWT & Rollenmodellen
+
+Anwendung des Backend-for-Frontend Patterns
+
+Domänenorientiertes Denken
+
+Entscheidungsfindung in der Architektur
+
+Dieses Projekt wächst Schritt für Schritt und begleitet mich in meiner Weiterentwicklung als Web Application Developerin mit DevOps-Fokus.
+
+🚀 Status
+
+Dieses Projekt befindet sich im aktiven Aufbau.
+Neue Funktionen und Services werden laufend ergänzt.
+
+🤝 Feedback & Austausch
+
+Ich freue mich über Rückmeldungen oder Impulse – besonders zu Architektur, Codequalität oder Erweiterungsmöglichkeiten.
