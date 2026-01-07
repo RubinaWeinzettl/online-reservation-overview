@@ -1,209 +1,167 @@
-# online-reservation-overview
-Overview meines Lernprojekts: Eine Online-Reservierungsplattform als Einstieg in Microservices, FastAPI und moderne Webarchitektur.
+# Online Reservierung – Projekt Overview
 
-📘 Online Reservierung – Projekt Overview
+Dieses Repository dient als **zentrale Übersicht** für mein Portfolio-Projekt **Online Reservierung**.  
+Es beschreibt Zielsetzung, Architektur, Vorgehensweise und den aktuellen Entwicklungsstand und verlinkt die zugehörigen Code-Repositories.
 
-Ein Microservice-Lernprojekt mit FastAPI & React
+Das Projekt befindet sich bewusst im **Work-in-Progress-Status** und wird inkrementell weiterentwickelt.
 
-🌿 Über dieses Projekt
+---
 
-Dieses Repository dient als zentrale Übersicht über mein Portfolio-Projekt Online Reservierung.
-Es fasst Architektur, Ziele, Systemaufbau und die zugehörigen Code-Repositories zusammen.
+## Überblick
 
-Das Projekt ist mein persönlicher Lernraum, um Microservice-Architekturen zum ersten Mal selbst umzusetzen und meine bisherigen Erfahrungen im Web Application Development bewusst zu erweitern – mit Fokus auf:
+Die Online-Reservierung ist eine **serviceorientierte Webanwendung** für zwei unterschiedliche Nutzergruppen:
 
-Microservices
+- **Kund:innen**, die Termine buchen möchten  
+- **Unternehmen** (z. B. Friseur-, Massage- oder Nagelstudios), die Leistungen, Personal und Buchungen verwalten  
 
-Python / FastAPI
+Der Schwerpunkt dieses Projekts liegt nicht nur auf Funktionalität, sondern vor allem auf:
 
-React
+- Architekturentscheidungen  
+- klarer Trennung von Verantwortlichkeiten  
+- realistischen Entwicklungs- und Release-Zyklen  
+- Qualitätssicherung und Deployment-Strategien  
 
-Backend-for-Frontend (BFF) Pattern
+---
 
-Rollenbasierter Authentifizierung
+## Architektur – aktueller Stand
 
-DevOps-Grundlagen
+Die Anwendung ist modular aufgebaut und besteht aus folgenden Kernkomponenten:
 
-🎯 Projektziel
+### Auth Service
+Eigenständiger Backend-Service für:
+- Anmeldung und Authentifizierung  
+- JWT-basierte Token  
+- Rollenmodell (**Role Based Access Control – RBAC**)
 
-Das Ziel ist es, eine Online-Reservierungsplattform zu entwickeln, auf der:
+### Zentrales Backend (FastAPI)
+Gemeinsame API für Business- und Customer-Funktionalitäten, intern klar modularisiert, z. B.:
 
-Kund*innen Termine buchen können
+- Business-Module  
+- Customer-Module  
+- Booking-Module  
 
-Unternehmen wie Friseur-, Massage- oder Nagelstudios
+inklusive:
+- **RBAC**
+- **Tenant Checks** (Zugriff nur im Kontext des zugehörigen Unternehmens)
 
-Leistungen anlegen
+### Frontend (schrittweise umgesetzt)
+- **Release 1:** sehr einfache HTML-Oberfläche zur Validierung der API-Flows  
+- **Spätere Releases:** Migration auf **React** mit rollenbasierter Navigation
 
-Personal verwalten
+### Datenbank
+- **MariaDB**
+- containerisiert für lokale Entwicklung
 
-Buchungen organisieren
+Die Architektur ist so gewählt, dass **frühe Releases möglich sind**, während spätere Erweiterungen (z. B. UI-Framework, feinere Service-Trennung) konzeptionell vorbereitet bleiben.
 
-Gleichzeitig lerne ich an diesem Projekt die Grundlagen einer modernen, serviceorientierten Architektur kennen.
+---
 
-🧱 Systemarchitektur
+## Mandantenfähigkeit
 
-Das System besteht aus mehreren voneinander getrennten Repositories.
-Jedes Repository bildet eine klar abgegrenzte Komponente:
+Die Mandantenfähigkeit wird **mehrschichtig** umgesetzt:
 
-1. Auth-Service
+- **Anwendungsebene:**  
+  - Role Based Access Control (RBAC)  
+  - Tenant Checks (z. B. `business_id` / `tenant_id`)
 
-Zuständig für:
+- **Plattformebene (Zielumgebung):**  
+  - Kubernetes-Deployment mit **Namespaces pro Mandant**  
+  - Trennung von Konfigurationen, Ressourcen und Deployments
 
-Registrierung
+---
 
-Login
+## Entwicklungs- & Zielumgebung
 
-JWT-basierte Authentifizierung
+### Lokale Entwicklung
+- Docker-basierte Container  
+- Orchestrierung über **ddev**  
+- reproduzierbare Entwicklungsumgebung  
+- realistisches Service-Setup bereits im lokalen Betrieb
 
-Rollen & Weiterleitung ins richtige Frontend
+### Zielumgebung
+- Deployment auf einen **Kubernetes-Cluster**
+- Vorbereitung der Docker-Images und Konfigurationen von Beginn an
+- Kubernetes wird **nicht** für frühe Releases erzwungen, ist aber klar als Zielplattform vorgesehen
 
-🔗 Repository:
-https://github.com/RubinaWeinzettl/online-reservation-auth
+---
 
-2. Business-App (Frontend + Business-BFF)
+## Release-Strategie
 
-Für Unternehmen & Mitarbeiter*innen:
+Das Projekt wird **inkrementell** entwickelt.  
+Der vollständige Funktionsumfang entsteht über mehrere Releases.
 
-Personalverwaltung
+### Release 1 – MVP (bewusst reduziert)
 
-Leistungen & Dauer
+**Auth**
+- Anmeldung mit Benutzername / Passwort  
+- keine Kund:innen-Registrierung  
+- Fokus auf technische Basis (JWT, Rollen, Zugriff)
 
-Dienstpläne
+**Backend / API**
+- Anlegen eines Unternehmens  
+- Pflege eines einfachen Dienstplans (freie / belegte Zeitfenster)  
+- Anlegen von Kund:innen durch Unternehmen  
+- Terminbuchung in freien Zeitslots  
+- keine komplexen Business-Regeln
 
-Verwaltung von Buchungsanfragen
+**Frontend**
+- sehr einfache HTML-Oberfläche
+- Fokus auf Funktionalität statt UI-Design
 
-Terminübersichten
+Ziel dieses Releases ist ein **stabiler End-to-End-Flow**, kein vollständiges Produkt.
 
-🔗 Repository:
-<Link zu Business-App Repo - TBA>
+### Weitere geplante Releases (Ausblick)
 
-3. Customer-App (Frontend + Customer-BFF)
+- Migration des Frontends auf **React**
+- Kund:innen-Registrierung
+- Login via **OAuth** (externe Identity Provider)
+- Erweiterung von Buchungs- und Rollenmodellen
+- Ausbau von Tests, Validierungen und Business-Logik
+- CI/CD-Vertiefung
+- Kubernetes-Deployment
 
-Für Kund*innen:
+---
 
-Registrierung / Login
+## CI/CD & Qualitätssicherung
 
-Kalenderansicht
+Geplant bzw. schrittweise umgesetzt:
 
-Auswahl der Fachkraft
+- Docker-basierte Containerisierung aller Komponenten  
+- **GitHub Actions** für:
+  - Linting (Backend & Frontend)
+  - automatisierte Tests
+  - Build der Container Images
+- klare Trennung von:
+  - Code-Qualität
+  - Tests
+  - Build-Schritten
 
-Terminbuchung
+Die Pipeline ist so ausgelegt, dass sie sowohl lokale Entwicklung als auch spätere Kubernetes-Deployments unterstützt.
 
-Stornierung / Übersicht
+---
 
-🔗 Repository:
-<Link zu Customer-App - TBA>
+## Zielbild
 
-🗂 Architekturdiagramm
-graph LR
-  subgraph Clients
-    CBrowser[Customer Browser]
-    BBrowser[Business Browser]
-  end
+In der finalen Ausbaustufe soll die Anwendung:
 
-  subgraph Frontends
-    CFE[Customer Frontend (React)]
-    BFE[Business Frontend (React)]
-  end
+- zwei klar getrennte Nutzererlebnisse (Business / Kund:innen) bieten  
+- eine saubere, erweiterbare Backend-Architektur besitzen  
+- moderne Authentifizierungs- und Autorisierungsmechanismen nutzen  
+- containerisiert und orchestriert auf Kubernetes laufen  
+- reale Entwicklungs-, Release- und Betriebsprozesse abbilden  
 
-  subgraph BFF_Layer[Backend for Frontend]
-    CBFF[Customer BFF (FastAPI)]
-    BBFF[Business BFF (FastAPI)]
-  end
+---
 
-  subgraph Services
-    AUTH[Auth Service]
-    BOOK[Booking Service<br/>(Basic Version)]
-    BUS[Business Service<br/>(Unternehmen + Staff)]
-  end
+## Repositories
 
-  subgraph Databases
-    DBAUTH[(Auth DB)]
-    DBBOOK[(Booking DB)]
-    DBBUS[(Business DB)]
-  end
+- **Projekt-Overview:**  
+  https://github.com/RubinaWeinzettl/online-reservation-overview
 
-  %% Connections
-  CBrowser --> CFE
-  BBrowser --> BFE
+- **Auth Service:**  
+  https://github.com/RubinaWeinzettl/online-reservation-auth
 
-  CFE --> CBFF
-  BFE --> BBFF
+- **API:**  
+  TBA
 
-  CBFF --> AUTH
-  BBFF --> AUTH
-
-  CBFF --> BOOK
-  BBFF --> BOOK
-
-  CBFF --> BUS
-  BBFF --> BUS
-
-  AUTH --> DBAUTH
-  BOOK --> DBBOOK
-  BUS --> DBBUS
-
-  AUTH -. JWT Tokens .-> CFE
-  AUTH -. JWT Tokens .-> BFE
-
-🛠 Technologien
-Backend
-
-Python
-
-FastAPI
-
-JWT Authentication
-
-PostgreSQL / SQLite
-
-Docker
-
-Frontend
-
-React
-
-TypeScript
-
-React Router
-
-Zustand oder Redux Toolkit
-
-TailwindCSS (optional)
-
-Tools / DevOps
-
-GitHub Projects (Organisation)
-
-GitHub Actions (optional CI/CD)
-
-Docker Compose
-
-📚 Was ich mit diesem Projekt lerne
-
-Aufbau und Strukturierung von Microservices
-
-Trennung von Verantwortlichkeiten
-
-API-Design für unterschiedliche Userrollen
-
-Umsetzung eines eigenen Auth-Services
-
-Arbeiten mit JWT & Rollenmodellen
-
-Anwendung des Backend-for-Frontend Patterns
-
-Domänenorientiertes Denken
-
-Entscheidungsfindung in der Architektur
-
-Dieses Projekt wächst Schritt für Schritt und begleitet mich in meiner Weiterentwicklung als Web Application Developerin mit DevOps-Fokus.
-
-🚀 Status
-
-Dieses Projekt befindet sich im aktiven Aufbau.
-Neue Funktionen und Services werden laufend ergänzt.
-
-🤝 Feedback & Austausch
-
-Ich freue mich über Rückmeldungen oder Impulse – besonders zu Architektur, Codequalität oder Erweiterungsmöglichkeiten.
+- **Web:**  
+  TBA
