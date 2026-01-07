@@ -161,7 +161,7 @@ In der finalen Ausbaustufe soll die Anwendung:
   https://github.com/RubinaWeinzettl/online-reservation-auth
 
 - **API:**  
-  TBA
+  https://github.com/RubinaWeinzettl/online-reservation-api
 
 - **Web:**  
-  TBA
+  https://github.com/RubinaWeinzettl/online-reservation-web
