@@ -1,160 +1,160 @@
-# Online Reservierung – Projekt Overview
+# Online Reservation – Project Overview
 
-Dieses Repository dient als **zentrale Übersicht** für mein Portfolio-Projekt **Online Reservierung**.  
-Es beschreibt Zielsetzung, Architektur, Vorgehensweise und den aktuellen Entwicklungsstand und verlinkt die zugehörigen Code-Repositories.
+This repository serves as the **central overview** for my portfolio project **Online Reservation**.  
+It describes the project goals, architecture, approach, and current development status, and links to the related code repositories.
 
-Das Projekt befindet sich bewusst im **Work-in-Progress-Status** und wird inkrementell weiterentwickelt.
-
----
-
-## Überblick
-
-Die Online-Reservierung ist eine **serviceorientierte Webanwendung** für zwei unterschiedliche Nutzergruppen:
-
-- **Kund:innen**, die Termine buchen möchten  
-- **Unternehmen** (z. B. Friseur-, Massage- oder Nagelstudios), die Leistungen, Personal und Buchungen verwalten  
-
-Der Schwerpunkt dieses Projekts liegt nicht nur auf Funktionalität, sondern vor allem auf:
-
-- Architekturentscheidungen  
-- klarer Trennung von Verantwortlichkeiten  
-- realistischen Entwicklungs- und Release-Zyklen  
-- Qualitätssicherung und Deployment-Strategien  
+The project is intentionally in a **work-in-progress** state and is being developed incrementally.
 
 ---
 
-## Architektur – aktueller Stand
+## Overview
 
-Die Anwendung ist modular aufgebaut und besteht aus folgenden Kernkomponenten:
+Online Reservation is a **service-oriented web application** for two distinct user groups:
+
+- **Customers** who want to book appointments  
+- **Businesses** (e.g. hair salons, massage studios, nail studios) that manage services, staff, and bookings  
+
+The focus of this project is not only on functionality, but primarily on:
+
+- architectural decisions  
+- clear separation of responsibilities  
+- realistic development and release cycles  
+- quality assurance and deployment strategies  
+
+---
+
+## Architecture – current state
+
+The application is modular and consists of the following core components:
 
 ### Auth Service
-Eigenständiger Backend-Service für:
-- Anmeldung und Authentifizierung  
-- JWT-basierte Token  
-- Rollenmodell (**Role Based Access Control – RBAC**)
+A standalone backend service responsible for:
+- login and authentication  
+- JWT-based tokens  
+- role model (**Role Based Access Control – RBAC**)
 
-### Zentrales Backend (FastAPI)
-Gemeinsame API für Business- und Customer-Funktionalitäten, intern klar modularisiert, z. B.:
+### Central Backend (FastAPI)
+A shared API for business and customer functionality, internally well-structured into modules such as:
 
-- Business-Module  
-- Customer-Module  
-- Booking-Module  
+- business modules  
+- customer modules  
+- booking modules  
 
-inklusive:
+including:
 - **RBAC**
-- **Tenant Checks** (Zugriff nur im Kontext des zugehörigen Unternehmens)
+- **tenant checks** (access only within the context of the associated business)
 
-### Frontend (schrittweise umgesetzt)
-- **Release 1:** sehr einfache HTML-Oberfläche zur Validierung der API-Flows  
-- **Spätere Releases:** Migration auf **React** mit rollenbasierter Navigation
+### Frontend (implemented incrementally)
+- **Release 1:** very simple HTML-based UI to validate API flows  
+- **Later releases:** migration to **React** with role-based navigation
 
-### Datenbank
+### Database
 - **MariaDB**
-- containerisiert für lokale Entwicklung
+- containerized for local development
 
-Die Architektur ist so gewählt, dass **frühe Releases möglich sind**, während spätere Erweiterungen (z. B. UI-Framework, feinere Service-Trennung) konzeptionell vorbereitet bleiben.
+The architecture is designed to enable **early releases**, while keeping later extensions (e.g. UI framework changes or finer service separation) conceptually prepared.
 
 ---
 
-## Mandantenfähigkeit
+## Multi-tenancy
 
-Die Mandantenfähigkeit wird **mehrschichtig** umgesetzt:
+Multi-tenancy is implemented on **multiple layers**:
 
-- **Anwendungsebene:**  
+- **Application layer:**  
   - Role Based Access Control (RBAC)  
-  - Tenant Checks (z. B. `business_id` / `tenant_id`)
+  - tenant checks (e.g. `business_id` / `tenant_id`)
 
-- **Plattformebene (Zielumgebung):**  
-  - Kubernetes-Deployment mit **Namespaces pro Mandant**  
-  - Trennung von Konfigurationen, Ressourcen und Deployments
-
----
-
-## Entwicklungs- & Zielumgebung
-
-### Lokale Entwicklung
-- Docker-basierte Container  
-- Orchestrierung über **ddev**  
-- reproduzierbare Entwicklungsumgebung  
-- realistisches Service-Setup bereits im lokalen Betrieb
-
-### Zielumgebung
-- Deployment auf einen **Kubernetes-Cluster**
-- Vorbereitung der Docker-Images und Konfigurationen von Beginn an
-- Kubernetes wird **nicht** für frühe Releases erzwungen, ist aber klar als Zielplattform vorgesehen
+- **Platform layer (target environment):**  
+  - Kubernetes deployment with **namespaces per tenant**  
+  - separation of configuration, resources, and deployments
 
 ---
 
-## Release-Strategie
+## Development & target environment
 
-Das Projekt wird **inkrementell** entwickelt.  
-Der vollständige Funktionsumfang entsteht über mehrere Releases.
+### Local development
+- Docker-based containers  
+- orchestration via **ddev**  
+- reproducible development environment  
+- realistic service setup already during local development
 
-### Release 1 – MVP (bewusst reduziert)
+### Target environment
+- deployment to a **Kubernetes cluster**
+- Docker images and configurations are prepared from the beginning
+- Kubernetes is **not required for early releases**, but clearly defined as the target platform
+
+---
+
+## Release strategy
+
+The project is developed **incrementally**.  
+The full feature set is delivered across multiple releases.
+
+### Release 1 – MVP (intentionally reduced)
 
 **Auth**
-- Anmeldung mit Benutzername / Passwort  
-- keine Kund:innen-Registrierung  
-- Fokus auf technische Basis (JWT, Rollen, Zugriff)
+- login with username / password  
+- no customer self-registration  
+- focus on technical fundamentals (JWT, roles, access)
 
 **Backend / API**
-- Anlegen eines Unternehmens  
-- Pflege eines einfachen Dienstplans (freie / belegte Zeitfenster)  
-- Anlegen von Kund:innen durch Unternehmen  
-- Terminbuchung in freien Zeitslots  
-- keine komplexen Business-Regeln
+- creation of a business entity  
+- maintenance of a simple schedule (free / occupied time slots)  
+- creation of customers by the business  
+- appointment booking within available slots  
+- no complex business rules
 
 **Frontend**
-- sehr einfache HTML-Oberfläche
-- Fokus auf Funktionalität statt UI-Design
+- very simple HTML-based UI  
+- focus on functionality rather than UI design
 
-Ziel dieses Releases ist ein **stabiler End-to-End-Flow**, kein vollständiges Produkt.
+The goal of this release is a **stable end-to-end flow**, not a fully featured product.
 
-### Weitere geplante Releases (Ausblick)
+### Planned future releases (outlook)
 
-- Migration des Frontends auf **React**
-- Kund:innen-Registrierung
-- Login via **OAuth** (externe Identity Provider)
-- Erweiterung von Buchungs- und Rollenmodellen
-- Ausbau von Tests, Validierungen und Business-Logik
-- CI/CD-Vertiefung
-- Kubernetes-Deployment
-
----
-
-## CI/CD & Qualitätssicherung
-
-Geplant bzw. schrittweise umgesetzt:
-
-- Docker-basierte Containerisierung aller Komponenten  
-- **GitHub Actions** für:
-  - Linting (Backend & Frontend)
-  - automatisierte Tests
-  - Build der Container Images
-- klare Trennung von:
-  - Code-Qualität
-  - Tests
-  - Build-Schritten
-
-Die Pipeline ist so ausgelegt, dass sie sowohl lokale Entwicklung als auch spätere Kubernetes-Deployments unterstützt.
+- migration of the frontend to **React**  
+- customer self-registration  
+- login via **OAuth** (external identity providers)  
+- extension of booking and role models  
+- improved validation and business logic  
+- expanded CI/CD setup  
+- Kubernetes deployment
 
 ---
 
-## Zielbild
+## CI/CD & quality assurance
 
-In der finalen Ausbaustufe soll die Anwendung:
+Planned and incrementally implemented:
 
-- zwei klar getrennte Nutzererlebnisse (Business / Kund:innen) bieten  
-- eine saubere, erweiterbare Backend-Architektur besitzen  
-- moderne Authentifizierungs- und Autorisierungsmechanismen nutzen  
-- containerisiert und orchestriert auf Kubernetes laufen  
-- reale Entwicklungs-, Release- und Betriebsprozesse abbilden  
+- Docker-based containerization of all components  
+- **GitHub Actions** for:
+  - linting (backend & frontend)  
+  - automated tests  
+  - building container images  
+- clear separation of:
+  - code quality  
+  - tests  
+  - build steps  
+
+The pipeline is designed to support both local development and later Kubernetes deployments.
+
+---
+
+## Target vision
+
+In its final stage, the application is intended to:
+
+- provide two clearly separated user experiences (business / customer)  
+- offer a clean and extensible backend architecture  
+- use modern authentication and authorization mechanisms  
+- run containerized and orchestrated on Kubernetes  
+- reflect real-world development, release, and operational processes  
 
 ---
 
 ## Repositories
 
-- **Projekt-Overview:**  
+- **Project Overview:**  
   https://github.com/RubinaWeinzettl/online-reservation-overview
 
 - **Auth Service:**  
