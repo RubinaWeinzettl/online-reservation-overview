@@ -1,3 +1,9 @@
+⚠️ Project Status: Archived
+
+This repository is no longer under active development.
+It remains public as a portfolio reference for architecture,
+service design, and DevOps-related decisions.
+
 # Online Reservation – Project Overview
 
 This repository serves as the **central overview** for my portfolio project **Online Reservation**.  
