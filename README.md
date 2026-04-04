@@ -1,8 +1,8 @@
-⚠️ Project Status: Archived
+⚠️ Project Status: In Progress (Rebuild)
 
-This repository is no longer under active development.
-It remains public as a portfolio reference for architecture,
-service design, and DevOps-related decisions.
+This project is currently being **restructured and rebuilt with a new technology stack**.  
+The previous implementation has been archived.  
+This repository remains the central reference for architecture, service design, and DevOps-related decisions.
 
 # Online Reservation – Project Overview
 
@@ -33,14 +33,22 @@ The focus of this project is not only on functionality, but primarily on:
 
 The application is modular and consists of the following core components:
 
-### Auth Service
+### Auth Service (Java / Jakarta EE)
 A standalone backend service responsible for:
 - login and authentication  
 - JWT-based tokens  
-- role model (**Role Based Access Control – RBAC**)
+- role model (**Role Based Access Control – RBAC**)  
+- implemented using:
+  - **Java 21**
+  - **Jakarta EE (JAX-RS, CDI)**
+  - **JPA / Hibernate**
+  - **Maven**
+  - **WildFly**
 
-### Central Backend (FastAPI)
-A shared API for business and customer functionality, internally well-structured into modules such as:
+---
+
+### Central Backend (planned)
+A shared API for business and customer functionality, planned as a separate service:
 
 - business modules  
 - customer modules  
@@ -50,15 +58,36 @@ including:
 - **RBAC**
 - **tenant checks** (access only within the context of the associated business)
 
+**Status:** TBA
+
+---
+
 ### Frontend (implemented incrementally)
-- **Release 1:** very simple HTML-based UI to validate API flows  
-- **Later releases:** migration to **React** with role-based navigation
+
+- **Current:** very simple HTML-based UI to validate API flows  
+- **Planned:** migration to **Angular (TypeScript)** with role-based navigation  
+
+---
 
 ### Database
-- **MariaDB**
+
+- **PostgreSQL**
 - containerized for local development
 
-The architecture is designed to enable **early releases**, while keeping later extensions (e.g. UI framework changes or finer service separation) conceptually prepared.
+---
+
+### DevOps & Infrastructure
+
+- **Docker** for containerization  
+- **docker compose** for local setup  
+- **Maven** for build and dependency management  
+- **Jenkins (planned)** for CI pipelines  
+- **Kubernetes (target environment)**  
+- **Helm (planned)** for deployments  
+
+---
+
+The architecture is designed to enable **early releases**, while keeping later extensions (e.g. UI framework changes or further service separation) conceptually prepared.
 
 ---
 
@@ -72,22 +101,26 @@ Multi-tenancy is implemented on **multiple layers**:
 
 - **Platform layer (target environment):**  
   - Kubernetes deployment with **namespaces per tenant**  
-  - separation of configuration, resources, and deployments
+  - separation of configuration, resources, and deployments  
 
 ---
 
 ## Development & target environment
 
 ### Local development
+
 - Docker-based containers  
-- orchestration via **ddev**  
+- orchestration via **docker compose**  
 - reproducible development environment  
-- realistic service setup already during local development
+- realistic service setup already during local development  
+
+---
 
 ### Target environment
-- deployment to a **Kubernetes cluster**
-- Docker images and configurations are prepared from the beginning
-- Kubernetes is **not required for early releases**, but clearly defined as the target platform
+
+- deployment to a **Kubernetes cluster**  
+- Docker images and configurations are prepared from the beginning  
+- Kubernetes is **not required for early releases**, but clearly defined as the target platform  
 
 ---
 
@@ -96,35 +129,41 @@ Multi-tenancy is implemented on **multiple layers**:
 The project is developed **incrementally**.  
 The full feature set is delivered across multiple releases.
 
+---
+
 ### Release 1 – MVP (intentionally reduced)
 
 **Auth**
 - login with username / password  
 - no customer self-registration  
-- focus on technical fundamentals (JWT, roles, access)
+- focus on technical fundamentals (JWT, roles, access)  
 
 **Backend / API**
 - creation of a business entity  
 - maintenance of a simple schedule (free / occupied time slots)  
 - creation of customers by the business  
 - appointment booking within available slots  
-- no complex business rules
+- no complex business rules  
 
 **Frontend**
 - very simple HTML-based UI  
-- focus on functionality rather than UI design
+- focus on functionality rather than UI design  
+
+---
 
 The goal of this release is a **stable end-to-end flow**, not a fully featured product.
 
-### Planned future releases (outlook)
+---
 
-- migration of the frontend to **React**  
+## Planned future releases (outlook)
+
+- migration of the frontend to **Angular (TypeScript)**  
 - customer self-registration  
-- login via **OAuth** (external identity providers)  
+- login via **OAuth / OIDC**  
 - extension of booking and role models  
 - improved validation and business logic  
-- expanded CI/CD setup  
-- Kubernetes deployment
+- integration of **Jenkins CI pipelines**  
+- Kubernetes deployment with Helm  
 
 ---
 
@@ -133,10 +172,10 @@ The goal of this release is a **stable end-to-end flow**, not a fully featured p
 Planned and incrementally implemented:
 
 - Docker-based containerization of all components  
-- **GitHub Actions** for:
-  - linting (backend & frontend)  
+- **Jenkins pipelines** for:
+  - build (`mvn package`)  
   - automated tests  
-  - building container images  
+  - container image build  
 - clear separation of:
   - code quality  
   - tests  
@@ -161,13 +200,13 @@ In its final stage, the application is intended to:
 ## Repositories
 
 - **Project Overview:**  
-  https://github.com/RubinaWeinzettl/online-reservation-overview
+  https://github.com/RubinaWeinzettl/online-reservation-overview  
 
-- **Auth Service:**  
-  https://github.com/RubinaWeinzettl/online-reservation-auth
+- **Auth Service (Java):**  
+  https://github.com/RubinaWeinzettl/online-reservation-auth-java  
 
 - **API:**  
-  https://github.com/RubinaWeinzettl/online-reservation-api
+  TBA  
 
 - **Web:**  
-  https://github.com/RubinaWeinzettl/online-reservation-web
+  https://github.com/RubinaWeinzettl/online-reservation-web  
